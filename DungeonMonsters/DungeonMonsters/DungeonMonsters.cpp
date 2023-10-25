@@ -192,46 +192,6 @@ public:
     }
 };
 
-
-void Test1() {
-    Creature orc{ "orc", 'o', 4, 2, 10 };
-    orc.addGold(5);
-    orc.reduceHealth(1);
-    std::cout << "The " << orc.getName() << " has " << orc.getHealth() << " health and is carrying " << orc.getGold() << " gold.\n";
-}
-void Test2() {
-    std::string name{};
-
-    std::cout << "Enter your name: ";
-    std::cin >> name;
-
-    Player player{ name };
-    std::cout << "Welcome, " << player.getName() << ".\n";
-    std::cout << "You have " << player.getHealth() << " health and are carrying " << player.getGold() << " gold.\n";
-}
-void Test3() {
-    Monster m{ Monster::Type::dragon };
-    std::cout << "A " << m.getName() << " (" << m.getSymbol() << ") was created.\n";
-}
-void Test4() {
-    //std::srand(static_cast<unsigned int>(std::time(nullptr))); // set initial seed value to system clock
-    //std::rand(); // get rid of first result
-
-    for (int i{ 0 }; i < 10; ++i)
-    {
-        Monster m{ Monster::getRandomMonster() };
-        std::cout << "A " << m.getName() << " (" << m.getSymbol() << ") was created.\n";
-    }
-}
-void Test5() {
-    for (int i{ 0 }; i < 10; i++) {
-        Potion potion{ Potion::getRandomPotion() };
-
-        std::cout << potion.getType() << " " << potion.getSize() << '\n';
-    }
-}
-
-
 static bool escapeEncounter() {  // sansa de 50% de a scapa de monstru
 
     int rand{ Random::get(1,100) };
