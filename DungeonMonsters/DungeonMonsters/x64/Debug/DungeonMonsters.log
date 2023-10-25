@@ -1,0 +1,4 @@
+﻿  DungeonMonsters.cpp
+C:\Users\dutum\source\repos\DungeonMonsters\DungeonMonsters\DungeonMonsters.cpp(50): warning C4715: 'Potion::getType': not all control paths return a value
+C:\Users\dutum\source\repos\DungeonMonsters\DungeonMonsters\DungeonMonsters.cpp(61): warning C4715: 'Potion::getSize': not all control paths return a value
+  DungeonMonsters.vcxproj -> C:\Users\dutum\source\repos\DungeonMonsters\x64\Debug\DungeonMonsters.exe
