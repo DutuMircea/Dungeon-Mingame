@@ -8,15 +8,14 @@
 
 class Potion {
 public:
-    enum class PotionType { // pt ca e enum class, celelalte clase n au acces si mereu trebuie convertit cu staic_cast
+    enum class PotionType { // all types of potions
         health,
         strength,
         poison,
         max_types
-        // adaugat portiune de gold si sistem de shop
     };
 
-    enum class PotionSize {
+    enum class PotionSize { // and their size
         small,
         medium,
         large,
@@ -36,8 +35,7 @@ public:
 
         return Potion{ static_cast<PotionType>(randType), static_cast<PotionSize>(randSize) };
     }
-
-    // nu se pune std::string& cand returnezi un literal gen "health", dar pui cand returnezi o variabila gen m_type
+    // set of getters for the potion class
     const std::string getType() const {
         switch (m_type) {
         case PotionType::health: return "Health";
@@ -60,7 +58,7 @@ public:
         }
     }
 };
-class Creature {
+class Creature {   // the class creature contains all the attributes
 protected:
     std::string m_name{};
     char m_symbol{};
@@ -74,7 +72,7 @@ public:
         m_name{ name }, m_symbol{ symbol }, m_health{ health }, m_damage{ damage }, m_gold{ gold }
     {}
 
-    //getteri
+    //getters
     const std::string& getName() const { return m_name; }
     char getSymbol() { return m_symbol; }
     int getHealth() const { return m_health; }
@@ -87,16 +85,12 @@ public:
 
 };
 
-class Player : public Creature {
+class Player : public Creature { // the class player inherits from the creature class all the attribts
 private:
     int m_level{ 1 };
 
 public:
     Player(std::string name) : Creature{ name, '@', 10, 1, 0 } {}
-    // creare player cu 10 health si lvl 1
-    /*Player(std::string name, char symbol, int health, int damage, int gold, int level) :
-        Creature{ name, symbol, health, damage, gold }, m_level{ level }
-    {}*/
 
     int getLevel() const { return m_level; }
 
@@ -163,9 +157,9 @@ public:
         slime,
         max_types // 3
     };
-    // de adaugat goblin
+    // could add more monster types
     Monster(Type type) : Creature{ getDefaultCreature(type) } {}
-    // look up table - map
+    // look up table - map for the creature, it reaturns a creature based on the given type
     static const Creature& getDefaultCreature(Type type) {
         static const std::array <Creature, static_cast<std::size_t>(Type::max_types)> monsterData{
 
@@ -173,15 +167,10 @@ public:
             Creature{"orc", 'o', 4, 2, 25},
             Creature{"slime", 's', 1, 1, 10}
         };
-        // construim un array de monstrii ce contine obiecte de tip creaturi si returnam in fct de type
+    
         return monsterData[static_cast<std::size_t>(type)]; // cast in tip int
     }
-    // sau poti face asa cu {} in plus
-   /*
-   {{ "dragon", 'D', 20, 4, 100 },
-    { "orc", 'o', 4, 2, 25 },
-    { "slime", 's', 1, 1, 10 }}
-    */
+
 
     static Monster getRandomMonster() {
 
@@ -192,19 +181,19 @@ public:
     }
 };
 
-static bool escapeEncounter() {  // sansa de 50% de a scapa de monstru
+static bool escapeEncounter() {  // 50% chance to escape the monster
 
     int rand{ Random::get(1,100) };
     return (rand <= 50);
 }
 
-static bool chancePotion() {
+static bool chancePotion() { // 30% chance to encounter a potion
 
     int rand{ Random::get(1,100) };
     return (rand <= 30);
 }
 
-void encounterPotion(Player& player) { // dorim sa modificam stats-urile playerului &
+void encounterPotion(Player& player) { /
 
     if (chancePotion()) {
         Potion potion{ Potion::getRandomPotion() };
@@ -232,7 +221,7 @@ void fightMonster(Player& player) {
         std::cin >> choice;
 
         switch (choice) {
-        case 'f':  // alegi sa lupti
+        case 'f':  // the player choses to fight
             std::cout << "You hit the " << monster.getName() << " for " << player.getDamage() << " damage.\n";
             monster.reduceHealth(player.getDamage());
 
@@ -251,7 +240,7 @@ void fightMonster(Player& player) {
                 break;
             }
 
-        case 'r': // alegi sa fugi
+        case 'r': // the player chooses to run
             if (escapeEncounter()) {
                 std::cout << "You successfully fled.\n";
                 return;
@@ -291,10 +280,11 @@ void playGame() {
 
         if (player.hasWon()) {
             std::cout << "\n\nCongratulations you reached level 20!\nYou win!\n\n";
-            break;
+            return;
         }
     }
 }
+
 int main()
 {
     playGame();
