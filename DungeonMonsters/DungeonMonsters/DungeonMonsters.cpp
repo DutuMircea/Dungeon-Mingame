@@ -58,7 +58,7 @@ public:
         }
     }
 };
-class Creature {   // the class creature contains all the attributes
+class Creature {  
 protected:
     std::string m_name{};
     char m_symbol{};
@@ -67,12 +67,12 @@ protected:
     int m_gold{};
 
 public:
-    //Creature() = default;
+    // Creature() = default;
     Creature(std::string name, char symbol, int health, int damage, int gold) :
         m_name{ name }, m_symbol{ symbol }, m_health{ health }, m_damage{ damage }, m_gold{ gold }
     {}
 
-    //getters
+    // getters for the creature class
     const std::string& getName() const { return m_name; }
     char getSymbol() { return m_symbol; }
     int getHealth() const { return m_health; }
@@ -158,7 +158,7 @@ public:
         max_types // 3
     };
     // could add more monster types
-    Monster(Type type) : Creature{ getDefaultCreature(type) } {}
+    Monster(Type type) : Creature{ getDefaultCreature(type) } {}  // the monster class constructor calls the creature constructor
     // look up table - map for the creature, it reaturns a creature based on the given type
     static const Creature& getDefaultCreature(Type type) {
         static const std::array <Creature, static_cast<std::size_t>(Type::max_types)> monsterData{
@@ -174,7 +174,7 @@ public:
 
     static Monster getRandomMonster() {
 
-        // generare nr random intre 0 si 3 (max_type - 1) 
+        // generate a random number between 0 and 3 (max_type - 1) 
         int random{ Random::get(0, static_cast<int>(Type::max_types) - 1) };
 
         return Monster{ static_cast<Type>(random) };
@@ -225,15 +225,18 @@ void fightMonster(Player& player) {
             std::cout << "You hit the " << monster.getName() << " for " << player.getDamage() << " damage.\n";
             monster.reduceHealth(player.getDamage());
 
-            if (monster.isDead()) {
+            if (monster.isDead()) { // if the player kills the monter he levels up and gets an amount of gold
                 player.addGold(monster.getGold());
                 player.levelUp();
+
                 std::cout << "You found " << monster.getGold() << " gold.\n";
+                
                 encounterPotion(player);
                 player.showStats();
                 return;
             }
             else {
+                // oyherwise the monster damages the player
                 std::cout << "The " << monster.getName() << " hit you for " << monster.getDamage() << " damage.\n";
                 player.reduceHealth(monster.getDamage());
                 player.showStats();
